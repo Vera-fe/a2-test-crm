@@ -1,0 +1,137 @@
+<div class="lead-crm-wrapper">
+    <mat-card class="main-card">
+        <mat-card-header>
+            <mat-card-title>Добавление лида в CRM</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <!-- Форма добавления -->
+            <form #leadForm="ngForm" (ngSubmit)="onSubmit(leadForm)">
+                <div class="form-grid">
+                    <!-- Имя клиента -->
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Имя клиента</mat-label>
+                        <input matInput [(ngModel)]="newLead.name" name="name" #nameInput="ngModel" required>
+                        <mat-error *ngIf="nameInput.invalid && nameInput.touched">
+                            Имя обязательно
+                        </mat-error>
+                    </mat-form-field>
+
+                    <!-- Телефон -->
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Номер телефона</mat-label>
+                        <input matInput [(ngModel)]="newLead.phone" name="phone" #phoneInput="ngModel" required>
+                        <mat-error *ngIf="phoneInput.invalid && phoneInput.touched">
+                            Телефон обязателен
+                        </mat-error>
+                    </mat-form-field>
+
+                    <!-- Источник -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Источник лида</mat-label>
+                        <mat-select [(ngModel)]="newLead.source" name="source">
+                            <mat-option *ngFor="let source of sources" [value]="source.value">
+                                {{ source.label }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- Ответственный -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Ответственный</mat-label>
+                        <mat-select [(ngModel)]="newLead.responsible" name="responsible">
+                            <mat-option *ngFor="let resp of responsibles" [value]="resp.value">
+                                {{ resp.label }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- Этап сделки -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Этап сделки</mat-label>
+                        <mat-select [(ngModel)]="newLead.stage" name="stage">
+                            <mat-option *ngFor="let stage of stages" [value]="stage.value">
+                                {{ stage.label }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- Переключатель ТЗ -->
+                    <div class="toggle-container">
+                        <mat-slide-toggle [(ngModel)]="newLead.requestedTz" name="requestedTz">
+                            Запрошено ТЗ
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+
+                <div class="form-actions" fxLayout="row" fxLayoutAlign="center">
+                    <button mat-raised-button color="primary" type="submit">
+                        Сохранить
+                    </button>
+                </div>
+            </form>
+
+            <!-- Список лидов -->
+            <div class="leads-section" *ngIf="leads.length > 0">
+                <mat-divider></mat-divider>
+                <h3>Сохранённые лиды ({{ leads.length }})</h3>
+
+                <div class="leads-grid">
+                    <mat-card class="lead-card" *ngFor="let lead of leads">
+                        <mat-card-header>
+                            <mat-card-title>{{ lead.name }}</mat-card-title>
+                            <mat-card-subtitle>
+                                <span class="stage-badge" [class]="'stage-' + lead.stage">
+                                    {{ getStageLabel(lead.stage) }}
+                                </span>
+                            </mat-card-subtitle>
+                        </mat-card-header>
+
+                        <mat-card-content>
+                            <div class="lead-info">
+                                <p><mat-icon>phone</mat-icon> {{ lead.phone }}</p>
+                                <p><mat-icon>category</mat-icon> {{ getSourceLabel(lead.source) }}</p>
+                                <p><mat-icon>person</mat-icon> {{ getResponsibleLabel(lead.responsible) }}</p>
+                                @if (lead.requestedTz) {
+                                <p class="tz-requested">
+                                    <mat-icon>check_circle</mat-icon> Запрошено ТЗ
+                                </p>
+                                }
+                                @if (!lead.requestedTz) {
+                                <p class="tz-denied">
+                                    <mat-icon>cancel</mat-icon> ТЗ не запрошено
+                                </p>
+                                }
+                                <p class="lead-date">
+                                    <mat-icon>calendar_today</mat-icon>
+                                    {{ lead.createdAt | date:'dd.MM.yyyy HH:mm' }}
+                                </p>
+                            </div>
+
+                            <!-- Изменение этапа -->
+                            <div class="stage-change">
+                                <mat-label>Изменить этап:</mat-label>
+                                <mat-select (selectionChange)="changeStage(lead, $event.value)" [value]="lead.stage">
+                                    <mat-option *ngFor="let stage of stages" [value]="stage.value">
+                                        {{ stage.label }}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </mat-card-content>
+
+                        <mat-card-actions>
+                            <button mat-icon-button color="warn" (click)="deleteLead(lead.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+        </mat-card-content>
+
+        <!-- Навигация -->
+        <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
+
+        </mat-card-actions>
+    </mat-card>
+</div>

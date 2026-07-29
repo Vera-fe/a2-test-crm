@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+// Импорт стилей Angular Material
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Глобальные стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background: #f5f7fa;
+    padding: 20px;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+// Стили для snackbar
+::ng-deep {
+    .error-snackbar {
+        background: #f44336;
+        color: white;
+
+        .mat-simple-snackbar-action {
+            color: white;
+        }
+    }
+
+    .success-snackbar {
+        background: #4caf50;
+        color: white;
+    }
+}

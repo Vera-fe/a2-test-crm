@@ -1,0 +1,180 @@
+.lead-crm-wrapper {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.main-card {
+    width: 50%;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 20px;
+    margin-bottom: 24px;
+
+    .full-width {
+        grid-column: 1 / -1;
+    }
+
+    .toggle-container {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: center;
+        padding: 8px 0;
+    }
+}
+
+.form-actions {
+    margin: 16px 0 24px;
+}
+
+.leads-section {
+    margin-top: 30px;
+
+    h3 {
+        margin: 20px 0 16px;
+        color: #333;
+    }
+}
+
+.leads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.lead-card {
+    position: relative;
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .lead-info {
+        p {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0;
+            font-size: 14px;
+
+            mat-icon {
+                font-size: 18px;
+                width: 18px;
+                height: 18px;
+                color: #666;
+            }
+        }
+
+        .tz-requested {
+            color: #4caf50;
+            font-weight: 500;
+        }
+
+        .tz-denied {
+            color: #bd3533;
+            font-weight: 500;
+        }
+
+        .lead-date {
+            font-size: 12px;
+            color: #999;
+        }
+    }
+}
+
+.stage-badge {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+
+    &.stage-new {
+        background: #e3f2fd;
+        color: #1976d2;
+    }
+
+    &.stage-qualified {
+        background: #e8f5e9;
+        color: #388e3c;
+    }
+
+    &.stage-consultation {
+        background: #fff3e0;
+        color: #f57c00;
+    }
+
+    &.stage-refusal {
+        background: #fbe9e7;
+        color: #d32f2f;
+    }
+}
+
+.stage-change {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    mat-label {
+        font-size: 13px;
+        color: #666;
+    }
+
+    mat-select {
+        min-width: 160px;
+    }
+}
+
+::ng-deep {
+    .error-snackbar {
+        background: #f44336;
+        color: white;
+
+        .mat-simple-snackbar-action {
+            color: white;
+        }
+    }
+
+    .success-snackbar {
+        background: #4caf50;
+        color: white;
+    }
+}
+
+// Адаптив
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+
+        .full-width {
+            grid-column: 1;
+        }
+
+        .toggle-container {
+            grid-column: 1;
+        }
+    }
+
+    .leads-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stage-change {
+        flex-direction: column;
+        align-items: stretch;
+
+        mat-select {
+            min-width: unset;
+        }
+    }
+}
